@@ -1,10 +1,13 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Jogador {
+public class Jogador implements Serializable {
 
+    //Serve para serializar e desserializar
+    private static final long serialVersionUID = 1L;
     private String cpf;
     private String nome;
     private LocalDate nascimento;
