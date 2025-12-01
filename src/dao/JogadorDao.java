@@ -2,15 +2,17 @@ package dao;
 
 import model.Jogador;
 
+import java.io.*;
 import java.util.HashSet;
 import java.util.Set;
 
 public class JogadorDao {
 
-    Set<Jogador> jogadores;
+    private File file;
 
-    public JogadorDao(){
-        jogadores = new HashSet<>();
+    public JogadorDao() throws IOException {
+        file = new File("jogadores.txt");
+        if(!file.exists()) file.createNewFile();
     }
 
     //CREATE
@@ -19,8 +21,13 @@ public class JogadorDao {
     }
 
     //READ
-    public Set<Jogador> getJogadores(){
-        return jogadores;
+    public Set<Jogador> getJogadores() throws IOException,
+            ClassNotFoundException {
+        if(file.length()==0) return new HashSet<>();
+        try(ObjectInputStream in = new ObjectInputStream(
+                new FileInputStream(file))){
+            return (Set<Jogador>) in.readObject();
+        }
     }
 
     //UPDATE
