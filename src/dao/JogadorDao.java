@@ -16,8 +16,21 @@ public class JogadorDao {
     }
 
     //CREATE
-    public boolean salvar(Jogador jogador){
-        return jogadores.add(jogador);
+    public boolean salvar(Jogador jogador) throws IOException, ClassNotFoundException {
+        Set<Jogador> jogadores = getJogadores();
+        if(jogadores.add(jogador)){
+            atualizarArquivo(jogadores);
+            return true;
+        }
+        return false;
+    }
+
+    private void atualizarArquivo(Set<Jogador> jogadores)
+            throws IOException {
+        try(ObjectOutputStream out = new ObjectOutputStream(
+                new FileOutputStream(file))){
+            out.writeObject(jogadores);
+        }
     }
 
     //READ
@@ -32,12 +45,14 @@ public class JogadorDao {
 
     //UPDATE
     public boolean atualizar(Jogador jogador){
-        return jogadores.remove(jogador) && jogadores.add(jogador);
+        return false;
+//        return jogadores.remove(jogador) && jogadores.add(jogador);
     }
 
     //DELETE
     public boolean deletar(Jogador jogador){
-        return jogadores.remove(jogador);
+        return false;
+//        return jogadores.remove(jogador);
     }
 
 }
