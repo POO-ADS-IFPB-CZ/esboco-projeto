@@ -1,4 +1,6 @@
 import dao.GenericDao;
+import exception.CpfExistenteException;
+import exception.ValorInvalidoException;
 import model.Jogador;
 import service.JogadorService;
 
@@ -13,7 +15,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         JogadorService jogadorService = null;
         try {
-            jogadorDao = new GenericDao<>("jogadores.txt");
+            jogadorService = new JogadorService();
         } catch (IOException e) {
             System.out.println("Falha ao conectar com o arquivo");
             System.exit(0);
@@ -43,18 +45,20 @@ public class Main {
                     Jogador jogador = new Jogador(cpf, nome, nascimento, time,
                             posicao, valor);
                     try {
-                        if(jogadorDao.salvar(jogador)){
+                        if(jogadorService.salvar(jogador)){
                             System.out.println("Salvo com sucesso");
-                        }else{
-                            System.out.println("Já existe jogador com esse CPF");
                         }
                     } catch (IOException | ClassNotFoundException e) {
                         System.out.println("Falha ao salvar jogador");
+                    } catch (CpfExistenteException e) {
+                        System.out.println(e.getMessage());
+                    } catch (ValorInvalidoException e) {
+                        System.out.println(e.getMessage());
                     }
                 }
                 case 2 -> {
                     try {
-                        System.out.println(jogadorDao.getObjetos());
+                        System.out.println(jogadorService.listar());
                     } catch (IOException | ClassNotFoundException e) {
                         System.out.println("Falha ao listar");
                         System.exit(0);
