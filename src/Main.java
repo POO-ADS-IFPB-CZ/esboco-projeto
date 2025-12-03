@@ -1,5 +1,6 @@
-import dao.JogadorDao;
+import dao.GenericDao;
 import model.Jogador;
+import service.JogadorService;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -10,9 +11,9 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-        JogadorDao jogadorDao = null;
+        JogadorService jogadorService = null;
         try {
-            jogadorDao = new JogadorDao();
+            jogadorDao = new GenericDao<>("jogadores.txt");
         } catch (IOException e) {
             System.out.println("Falha ao conectar com o arquivo");
             System.exit(0);
@@ -53,7 +54,7 @@ public class Main {
                 }
                 case 2 -> {
                     try {
-                        System.out.println(jogadorDao.getJogadores());
+                        System.out.println(jogadorDao.getObjetos());
                     } catch (IOException | ClassNotFoundException e) {
                         System.out.println("Falha ao listar");
                         System.exit(0);
