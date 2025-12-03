@@ -1,26 +1,35 @@
 import dao.JogadorDao;
-import model.Jogador;
 
-import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
+import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
+        JogadorDao jogadorDao = null;
         try {
-            JogadorDao dao = new JogadorDao();
-            System.out.println(dao.getJogadores());
-//            dao.salvar(new Jogador("111.111.111-01",
-//                "Danilo",
-//                    LocalDate.of(1990,2,3),
-//                    "Flamengo", "Zagueiro",
-//                    10000000));
+            jogadorDao = new JogadorDao();
         } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            System.out.println("Falha ao conectar com o arquivo");
+            System.exit(0);
         }
+        System.out.println("BID - CBF");
+        while(true){
+            System.out.println("Escolha uma opção" +
+                    "\n1 - Salvar Jogador" +
+                    "\n2 - Listar Jogadores");
+            int escolha = scanner.nextInt();
+            scanner.nextLine();
+            switch (escolha){
+                case 1 -> System.out.println("Escolheu salvar");
+                case 2 -> System.out.println("Escolheu listar");
+                default -> System.exit(0);
+            }
+        }
+
+
     }
 
 }
