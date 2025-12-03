@@ -44,15 +44,23 @@ public class JogadorDao {
     }
 
     //UPDATE
-    public boolean atualizar(Jogador jogador){
+    public boolean atualizar(Jogador jogador) throws IOException, ClassNotFoundException {
+        Set<Jogador> jogadores = getJogadores();
+        if(jogadores.remove(jogador) && jogadores.add(jogador)){
+            atualizarArquivo(jogadores);
+            return true;
+        }
         return false;
-//        return jogadores.remove(jogador) && jogadores.add(jogador);
     }
 
     //DELETE
-    public boolean deletar(Jogador jogador){
+    public boolean deletar(Jogador jogador) throws IOException, ClassNotFoundException {
+        Set<Jogador> jogadores = getJogadores();
+        if(jogadores.remove(jogador)){
+            atualizarArquivo(jogadores);
+            return true;
+        }
         return false;
-//        return jogadores.remove(jogador);
     }
 
 }
