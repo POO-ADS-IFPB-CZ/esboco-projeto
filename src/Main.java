@@ -1,6 +1,8 @@
 import dao.JogadorDao;
+import model.Jogador;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Main {
@@ -23,8 +25,40 @@ public class Main {
             int escolha = scanner.nextInt();
             scanner.nextLine();
             switch (escolha){
-                case 1 -> System.out.println("Escolheu salvar");
-                case 2 -> System.out.println("Escolheu listar");
+                case 1 -> {
+                    System.out.println("Informe o CPF:");
+                    String cpf = scanner.nextLine();
+                    System.out.println("Informe o nome:");
+                    String nome = scanner.nextLine();
+                    System.out.println("Informe o nascimento (AAAA-MM-DD)");
+                    LocalDate nascimento = LocalDate.parse(scanner.nextLine());
+                    System.out.println("Informe o time:");
+                    String time = scanner.nextLine();
+                    System.out.println("Informe a posição:");
+                    String posicao = scanner.nextLine();
+                    System.out.println("Informe o valor:");
+                    double valor = scanner.nextDouble();
+                    scanner.nextLine();
+                    Jogador jogador = new Jogador(cpf, nome, nascimento, time,
+                            posicao, valor);
+                    try {
+                        if(jogadorDao.salvar(jogador)){
+                            System.out.println("Salvo com sucesso");
+                        }else{
+                            System.out.println("Já existe jogador com esse CPF");
+                        }
+                    } catch (IOException | ClassNotFoundException e) {
+                        System.out.println("Falha ao salvar jogador");
+                    }
+                }
+                case 2 -> {
+                    try {
+                        System.out.println(jogadorDao.getJogadores());
+                    } catch (IOException | ClassNotFoundException e) {
+                        System.out.println("Falha ao listar");
+                        System.exit(0);
+                    }
+                }
                 default -> System.exit(0);
             }
         }
